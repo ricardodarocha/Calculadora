@@ -73,9 +73,6 @@ Coordinates=454,278,59,33
 [Display]
 Coordinates=247,10,53,51
 
-[Image1]
-Coordinates=321,10,49,51
-
 [ListView1]
 Coordinates=10,10,100,213
 Visible=True
@@ -133,7 +130,7 @@ Coordinates=757,10,89,33
 Coordinates=651,10,84,33
 
 []
-Coordinates=130,0,111,249
+Coordinates=321,10,49,51
 
 [ConsultaconexaoTableMacros]
 Coordinates=256,87,163,33

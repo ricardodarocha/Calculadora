@@ -13,13 +13,12 @@ uses
   FireDAC.DApt.Intf, FireDAC.DApt, Data.Bind.EngExt, Vcl.Bind.DBEngExt,
   System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.Components,
   Data.Bind.DBScope, Data.DB, FireDAC.Comp.DataSet, Vcl.ComCtrls,
-  FireDAC.Comp.Client;
+  FireDAC.Comp.Client, uFuncoes, uVariaveis;
 
 type
   TfrmCalc = class(TForm)
     Display: TMemo;
     MemoFormula: TMemo;
-    Image1: TImage;
     ListHistorico: TListBox;
     VariablesEditor: TValueListEditor;
     SpeedButton1: TSpeedButton;
@@ -132,7 +131,7 @@ var
 begin
   P := JvExprParser.TExprParser.Create;
   P.OnGetVariable := GabrielVariable;
-  P.OnExecuteFunction := gabrielFunction;
+  P.OnExecuteFunction := GabrielFunction;
 
   ListHistorico.Items.Insert(0,Display.lines.Strings[0]);
   if P.Eval(Expressao) then
@@ -227,22 +226,19 @@ end;
 
 function TfrmCalc.gabrielFunction(Sender: TObject; const FuncName: string; const Args: Variant; var ResVal: Variant): Boolean;
 begin
- if funcname = 'Gabriel' then resVal := 99;
+   resVal := ResolveFuncao(FuncName, Args);
 end;
 
 function TfrmCalc.GabrielVariable(Sender: TObject; const VarName: string; var Value: Variant): Boolean;
 begin
-  if varname = 'Area' then
-  begin
-  Value := 2.23 ;
-  result := true;
-  end;
+  result := resolveVariavel(Varname, Value);
 end;
 
 function TfrmCalc.getExpressao: String;
 begin
-  System.SysUtils.FormatSettings.DecimalSeparator := '.';
-  result := Display.Lines.Strings[0].Replace(',','.')
+  RESULT := Display.Lines.Text;
+//  System.SysUtils.FormatSettings.DecimalSeparator := '.';
+//  result := Display.Lines.Strings[0].Replace(',','.')
 end;
 
 procedure TfrmCalc.LimparHistorico(Sender: TObject);

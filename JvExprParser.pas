@@ -939,7 +939,7 @@ begin
   if FParser.Parent.DoExecuteFunction(FFunc.Str, VArgs, Value) then
     Result := Value
   else
-    raise EParserError.CreateFmt('Function %s could not be executed.', [FFunc.Str]);
+    raise EParserError.CreateFmt('Função %s não implementada.', [FFunc.Str]);
 end;
 
 { TNodeVariable }
