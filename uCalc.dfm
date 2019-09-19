@@ -4,7 +4,7 @@ object frmCalc: TfrmCalc
   BorderStyle = bsToolWindow
   Caption = 'Calculadora'
   ClientHeight = 511
-  ClientWidth = 516
+  ClientWidth = 580
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,7 +13,7 @@ object frmCalc: TfrmCalc
   Font.Style = []
   OldCreateOrder = False
   DesignSize = (
-    516
+    580
     511)
   PixelsPerInch = 96
   TextHeight = 13
@@ -568,6 +568,13 @@ object frmCalc: TfrmCalc
     ParentFont = False
     OnClick = Digita
   end
+  object SpeedButton15: TSpeedButton
+    Left = 513
+    Top = 133
+    Width = 32
+    Height = 30
+    Caption = 'r'
+  end
   object ListHistorico: TListBox
     Left = 3
     Top = 40
@@ -605,7 +612,7 @@ object frmCalc: TfrmCalc
   object Display: TMemo
     Left = 4
     Top = 8
-    Width = 506
+    Width = 570
     Height = 33
     Alignment = taRightJustify
     Anchors = [akLeft, akTop, akRight]
@@ -624,11 +631,12 @@ object frmCalc: TfrmCalc
     WordWrap = False
     OnChange = DisplayChange
     OnKeyPress = DisplayKeyPress
+    ExplicitWidth = 506
   end
   object MemoFormula: TMemo
     Left = 4
     Top = 464
-    Width = 504
+    Width = 568
     Height = 47
     Alignment = taCenter
     Anchors = [akLeft, akTop, akRight]
@@ -641,6 +649,7 @@ object frmCalc: TfrmCalc
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    ExplicitWidth = 504
   end
   object ListView1: TListView
     Left = 10
@@ -653,7 +662,6 @@ object frmCalc: TfrmCalc
       end
       item
       end>
-    SmallImages = CNV.btnImages
     TabOrder = 4
     ViewStyle = vsReport
     Visible = False

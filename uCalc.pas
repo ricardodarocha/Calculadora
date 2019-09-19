@@ -97,6 +97,7 @@ type
     IndicadoresTableStatus: TStringField;
     LinkListControlToField1: TLinkListControlToField;
     BindSourceDB1: TBindSourceDB;
+    SpeedButton15: TSpeedButton;
     procedure Digita(Sender: TObject);
     procedure btnInverteSinalClick(Sender: TObject);
 
