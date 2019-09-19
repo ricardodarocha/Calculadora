@@ -105,11 +105,6 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="JvExprParser.pas"/>
-        <DCCReference Include="..\telas\uGeneralIcon.pas">
-            <Form>CNV</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
         <DCCReference Include="uFuncoes.pas"/>
         <DCCReference Include="uVariaveis.pas"/>
         <DCCReference Include="assis.strings.pas"/>
