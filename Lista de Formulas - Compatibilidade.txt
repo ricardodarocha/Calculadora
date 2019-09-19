@@ -1,3 +1,6 @@
+Eu criei uma lista de fórmulas comuns em outros sistemas (matlab, sql, delphi, etc)
+Estas fórmulas ainda precisam ser implementadas
+
 Compatibility functions
 COVAR	Returns the covariance, mean deviation of products for each series of observations.
 MODE	Returns the most common value of a data series.

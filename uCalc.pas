@@ -106,9 +106,9 @@ type
     procedure LimparHistorico(Sender: TObject);
     procedure DisplayChange(Sender: TObject);
 
-     function GabrielVariable(Sender: TObject; const VarName: string;
+     function CustomVariable(Sender: TObject; const VarName: string;
     var Value: Variant): Boolean;
-   function gabrielFunction(Sender: TObject; const FuncName: string;
+   function CustomFunction(Sender: TObject; const FuncName: string;
     const Args: Variant; var ResVal: Variant): Boolean;
 
   private
@@ -128,22 +128,26 @@ implementation
 procedure TfrmCalc.Solve(Sender: TObject);
 var
   P: TExprParser;
+  LastItem: String;
 begin
   P := JvExprParser.TExprParser.Create;
-  P.OnGetVariable := GabrielVariable;
-  P.OnExecuteFunction := GabrielFunction;
+  P.OnGetVariable := CustomVariable;
+  P.OnExecuteFunction := CustomFunction;
 
-  ListHistorico.Items.Insert(0,Display.lines.Strings[0]);
+  LastItem := Display.lines.Strings[0];
+    ListHistorico.Items.Insert(0, LastItem);
   if P.Eval(Expressao) then
   begin
-    Display.Text :=  P.Value;
+    Display.Text := P.Value;
     Display.SelectAll;
-    if Display.Lines.Strings[0] = '' then
-       Display.Lines.Text := '0';
-    MemoFormula.Text := P.Expression ;
+    if Display.lines.Strings[0] = '' then
+      Display.lines.Text := '0';
+    MemoFormula.Text := P.Expression + ' = ' + String(P.Value);
   end
   else
-    MemoFormula.Text := P.Expression +' | '+ P.ErrorMessage;
+  begin
+    MemoFormula.Text := P.Expression + ' | ' + P.ErrorMessage;
+  end;
 
 end;
 
@@ -215,7 +219,7 @@ procedure TfrmCalc.DisplayChange(Sender: TObject);
 begin
   if Display.Lines.Strings[0] = ',' then
     Display.Lines.Text := '0' + Display.Lines.Strings[0];
-  
+
 end;
 
 procedure TfrmCalc.DisplayKeyPress(Sender: TObject; var Key: Char);
@@ -224,12 +228,12 @@ if key = #13 then
   Solve(btnIgual);
 end;
 
-function TfrmCalc.gabrielFunction(Sender: TObject; const FuncName: string; const Args: Variant; var ResVal: Variant): Boolean;
+function TfrmCalc.CustomFunction(Sender: TObject; const FuncName: string; const Args: Variant; var ResVal: Variant): Boolean;
 begin
    resVal := ResolveFuncao(FuncName, Args);
 end;
 
-function TfrmCalc.GabrielVariable(Sender: TObject; const VarName: string; var Value: Variant): Boolean;
+function TfrmCalc.CustomVariable(Sender: TObject; const VarName: string; var Value: Variant): Boolean;
 begin
   result := resolveVariavel(Varname, Value);
 end;
@@ -237,8 +241,9 @@ end;
 function TfrmCalc.getExpressao: String;
 begin
   RESULT := Display.Lines.Text;
-//  System.SysUtils.FormatSettings.DecimalSeparator := '.';
-//  result := Display.Lines.Strings[0].Replace(',','.')
+  System.SysUtils.FormatSettings.DecimalSeparator := '.';
+  result := Display.Lines.Strings[0].Replace(',','.');
+  result := result.Replace(';',',')
 end;
 
 procedure TfrmCalc.LimparHistorico(Sender: TObject);

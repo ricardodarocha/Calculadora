@@ -8,7 +8,7 @@ function ResolveFuncao(const FuncName: String;const Args: Variant): Variant;
 function Area(x,y: Currency): Variant;
 
 const
-   _AREA = 'AREA()';
+   _AREA = 'AREA';
    _ALTURA = '@ALTURA';
 
 var FuncoesPublicas: ListaDeStrings;
@@ -19,11 +19,15 @@ uses
   System.SysUtils;
 
 
-function ResolveFuncao(const FuncName: String;const Args: Variant): Variant;
+function ResolveFuncao(const FuncName: String; const Args: Variant): Variant;
 begin
-  if funcName = _AREA then
-    RESULT := Area(ARGS[0],args[1])
-  else
+    if lowercase(FuncName) = lowercase(_AREA) then
+      RESULT := Area(Args[0], Args[1])
+    else    if lowercase(FuncName) = lowercase(_AREA) then
+      RESULT := Area(Args[0], Args[1])
+    else {...};
+
+
 
 end;
 
