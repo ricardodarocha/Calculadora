@@ -624,7 +624,6 @@ object frmCalc: TfrmCalc
     WordWrap = False
     OnChange = DisplayChange
     OnKeyPress = DisplayKeyPress
-    ExplicitWidth = 505
   end
   object MemoFormula: TMemo
     Left = 4
@@ -642,7 +641,6 @@ object frmCalc: TfrmCalc
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 503
   end
   object ListView1: TListView
     Left = 10

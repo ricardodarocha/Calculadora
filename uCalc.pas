@@ -99,6 +99,7 @@ type
     BindSourceDB1: TBindSourceDB;
     procedure Digita(Sender: TObject);
     procedure btnInverteSinalClick(Sender: TObject);
+
     procedure Solve(Sender: TObject);
     procedure DisplayKeyPress(Sender: TObject; var Key: Char);
     procedure Clear(Sender: TObject);
@@ -116,6 +117,22 @@ type
     { Private declarations }
   public
     property Expressao: String read getExpressao;
+
+    /// <summary>
+    ///  Use este método para realizar uma chamada externa à calculadora
+    /// </summary>
+    /// <Example>
+    ///   uses uCalc;
+    ///  program ExternalCalculation
+    ///  var Expressao, ValorRetorno, MensagemRetorno: String;
+    ///  begin
+    ///    Expressao := inputText('formula','0');
+    ///    ValorRetorno := uCalc.Calcular(Expressao, MensagemRetorno);
+    ///    writeln(MensagemRetorno);
+    ///    writeln(ValorRetorno);
+    ///  end.
+    /// </Example>
+    function Calcular(const aExpressao: String; var aMensagemRetorno: String): Variant;
   end;
 
 var
@@ -123,31 +140,65 @@ var
 
 implementation
 
+resourcestring
+  StrCalculadoComSucess = 'calculado com sucesso';
+
 {$R *.dfm}
 
 procedure TfrmCalc.Solve(Sender: TObject);
 var
-  P: TExprParser;
+  Resultado: Variant;
+  Mensagem: String;
+
+//Var of frmCalc
   LastItem: String;
 begin
-  P := JvExprParser.TExprParser.Create;
-  P.OnGetVariable := CustomVariable;
-  P.OnExecuteFunction := CustomFunction;
-
+  Resultado := Calcular(Expressao, Mensagem);
   LastItem := Display.lines.Strings[0];
-    ListHistorico.Items.Insert(0, LastItem);
-  if P.Eval(Expressao) then
+  ListHistorico.Items.Insert(0, LastItem);
+  if Mensagem = StrCalculadoComSucess then
   begin
-    Display.Text := P.Value;
+    Display.Text := Resultado;
     Display.SelectAll;
     if Display.lines.Strings[0] = '' then
       Display.lines.Text := '0';
-    MemoFormula.Text := P.Expression + ' = ' + String(P.Value);
+    MemoFormula.Text := Resultado;
   end
   else
   begin
-    MemoFormula.Text := P.Expression + ' | ' + P.ErrorMessage;
+    Display.SelectAll;
+    MemoFormula.Text := Resultado + ' | ' + Mensagem;
   end;
+
+end;
+
+function TfrmCalc.Calcular(const aExpressao: String; var aMensagemRetorno: String): Variant;
+var
+  P: TExprParser;
+begin
+  P := JvExprParser.TExprParser.Create;
+
+
+    /// <summary>
+    ///   Implemente suas própria variáveis no método CUSTOMVARIABLE
+    /// </summary>
+    P.OnGetVariable := CustomVariable;
+
+    /// <summary>
+    ///   Implemente suas própria funções no método CUSTOMFUNCTION
+    /// </summary>
+    P.OnExecuteFunction := CustomFunction;
+
+    if P.Eval(aExpressao) then
+    begin
+      Result := P.Value;
+      aMensagemRetorno := StrCalculadoComSucess;
+    end else
+    begin
+      Result := P.Expression;
+      aMensagemRetorno := P.ErrorMessage;
+    end;
+
 
 end;
 
@@ -251,4 +302,4 @@ begin
   ListHistorico.Clear;
 end;
 
-end.
+end.1
