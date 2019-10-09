@@ -1,37 +1,39 @@
 # Calculadora
-A magic calculator and evaluator for Delphi
+A pretty good expression evaluator for Delphi
 
-Eu modifiquei essa classe que é parte do componente JEDI.VCL e JEDI.Pas
-Eu isolei apenas as partes que me interessavam, para resolver equações simples
+I toke one class from the = JEDI.VCL and JEDI.Pas library.
+I was just wanting to simplify the code to solve simple equations in string format.
+But I discovered two very inspiring resources;
 
-exemplo
-
-  var = Parser:= TExprParser.Create;
-  if Parser.Eval(' x-2 + 2 * 3.14 * r ')   then
-    showmessage('ExpressaoFormatada: ' + P.Expression + ' = ' + P.Value
+examplo
+```Delphi
+  var Parser:= TExprParser.Create;
+  Parser.onExecFunction := MyCustomFunctionParser;
+  Parser.onReadVariable := MyCustomVariableMatch;
+  if Parser.Eval(' x-2 + 2 * pii * r  + seno(30)')   then
+    showmessage(FORMAT('Full Expression: %s = %s',[P.Expression, P.Value]))
   else
-    showmessage(P.ErrorMessage);
+    showmessage(FORMAT('Parser could not solve the equation: %s. %s',[P.Expression,P.ErrorMessage]));
     end;
-
-  Finally
-    P.DisposeOf;
-    P := nil;
-  End;
-
-  Vai retornar "Variable 'x' could not be fetched"
-
-  Aí voce vai substituindo as variáveis por uma valor que você leu do banco até completar toda a equação.
+```
+Then just implement your methods
+```Delphi
+procedure MyCustomFunctionParser(const functionName: String; args: Ole; var Value: Variant);
+begin
+If functionName = seno then Value := sin(args[0]);
+end;
+procedure MyCustomVariableMatch(const Variable: String; var Value: Variant);
+begin
+If Variable = pii then Value := 3.1415
+else Value := UserInput_Variable(Variable);
+end;
+```
 
 ----------------------------------------------------------------------
-#Novas funcionalidades
-   Implementado o método onGetVariable
-   Implementado o método onExecuteFuncion
-
-   Agora é possível criar funções personalizadas
-
-
-
-
+#News
+   Implemented methodo MachVariableFromDataset and MachVariableFromJson
+   Just pass a Dataset or a Json as a parameter and the parser will find the variable values.
+   The dataset doesn't move the cursor;
 
 #Comments from JVCL
 The contents of this file are subject to the Mozilla Public License
