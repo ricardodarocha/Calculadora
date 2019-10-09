@@ -28,7 +28,13 @@ If Variable = pii then Value := 3.1415
 else Value := UserInput_Variable(Variable);
 end;
 ```
-
+```Shell
+>> x-2 + 2 * pii * r  + seno(30)
+>> x-2 + 2 * 3.1415 * r  + 0.5
+>> input x variable
+>> 2
+>> input r variable 
+```
 ----------------------------------------------------------------------
 #News
    Implemented methodo MachVariableFromDataset and MachVariableFromJson
